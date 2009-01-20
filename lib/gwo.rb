@@ -42,11 +42,11 @@ module GWO
       })
     end
     
-    def gwo_section(name, &block)
+    def gwo_static_section(name, &block)
       concat(script(name) { capture(&block) })
     end
     
-    def gwo_dynamic_section(name, html_options = {}, &block)
+    def gwo_section(name, html_options = {}, &block)
       concat(
         content_tag(:div, 
           capture(&block), 
@@ -68,6 +68,10 @@ module GWO
         javascript_tag("GWO(#{default.to_s.inspect})")
       } + 
       gwo_end(uacct, id)
+    end
+    
+    def gwo(default, uacct, id)
+      gwo_start(id) + gwo_dynamic_end(default, uacct, id)
     end
     
     private
